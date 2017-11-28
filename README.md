@@ -1,0 +1,2 @@
+# moodle-backup_scripts
+We needed a way to keep an entire semester of live daily Moodle backups of the database, file repository, and PHP code. Having this system has helped us immensely with providing Moodle support, content recovery, and recreating issues. With a 3.5TB file repository, removing duplicate files across instances was a priority. With these scripts we are able to keep 136 days of live daily Moodle backups with minimal hardware and cost.
