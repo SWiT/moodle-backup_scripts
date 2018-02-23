@@ -1,0 +1,43 @@
+# Setting up a replacement drive on a RAID 6 array.
+# Adapted from the following guide http://www.tjansson.dk/2013/12/replacing-a-failed-disk-in-a-mdadm-raid/
+
+# list all drives models, serial numbers, and /dev/sdX aliases.
+ls -l /dev/disk/by-id/ata* | grep -v "\-part"
+
+# Current details of the RAID array.
+sudo mdadm --detail /dev/md0
+
+# Investigate and test a drive if needed.
+smartctl -i /dev/sdX
+smartctl -t long /dev/sdX
+smartctl -l selftest /dev/sdX
+
+# Mark the dying drive as failed if needed.
+sudo mdadm /dev/md0 --fail /dev/sdX1
+
+# Remove the failed drive.
+sudo mdadm /dev/md0 --remove /dev/sdX1
+
+# Poweroff and replace the drive.
+sudo poweroff
+
+# list all drives and paritions models, serial numbers, and /dev/sdX aliases.
+ls -l /dev/disk/by-id/ata*
+
+# Assuming /dev/sdX is the new empty drive. (There should be no /dev/sdX1 partition.)
+sudo parted -a optimal /dev/sdX
+    (parted) mklabel gpt
+    (parted) mkpart primary 1 -1
+    (parted) set 1 raid on                                                    
+    (parted) print                                                                
+#   Model: ATA WDC WD30EZRX-00A (scsi)
+#   Disk /dev/sdl: 3001GB
+#   Sector size (logical/physical): 512B/4096B
+#   Partition Table: gpt
+#
+#   Number  Start   End     Size    File system     Name     Flags
+#    1      1049kB  3001GB  3001GB  linux-swap(v1)  primary  raid
+#   
+    (parted) quit
+sudo mdadm /dev/md0 --add /dev/sdX1
+sudo mdadm --detail /dev/md0

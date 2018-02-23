@@ -1,0 +1,12 @@
+# m h  dom mon dow   command
+#MOODLE
+5 0 * * * /usr/bin/php /home/moodleadmin/moodlebackup_scripts/backupFiles.php -s moodle -y > /home/moodleadmin/log/moodle/`date +\%Y\%m\%d`_files.log 2>&1
+5 1 * * * /usr/bin/php /home/moodleadmin/moodlebackup_scripts/backupDB.php -s moodle -y > /home/moodleadmin/log/moodle/`date +\%Y\%m\%d`_db.log 2>&1
+#ESPACE
+5 1 * * * /usr/bin/php /home/moodleadmin/moodlebackup_scripts/backupFiles.php -s espace -y > /home/moodleadmin/log/espace/`date +\%Y\%m\%d`_files.log 2>&1
+5 2 * * * /usr/bin/php /home/moodleadmin/moodlebackup_scripts/backupDB.php -s espace -y > /home/moodleadmin/log/espace/`date +\%Y\%m\%d`_db.log 2>&1
+#PORTFOLIO
+5 2 * * * /usr/bin/php /home/moodleadmin/moodlebackup_scripts/backupFiles.php -s portfolio -y > /home/moodleadmin/log/portfolio/`date +\%Y\%m\%d`_files.log 2>&1
+5 3 * * * /usr/bin/php /home/moodleadmin/moodlebackup_scripts/backupDB.php -s portfolio -y > /home/moodleadmin/log/portfolio/`date +\%Y\%m\%d`_db.log 2>&1
+#Moodle Logger (Disk Usage Report)
+0 7 * * * php /home/moodleadmin/elisadmin/moodlelogger/logger_cron.php > /home/moodleadmin/elisadmin/moodlelogger/cron.log 2>&1

@@ -1,0 +1,3 @@
+# m h  dom mon dow   command
+0 */4 * * * /home/moodleadmin/moodlebackup_scripts/check_raid.sh > /home/moodleadmin/log/check_raid.log
+

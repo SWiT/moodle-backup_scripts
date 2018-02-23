@@ -1,0 +1,5 @@
+muc/*
+cache/*
+sessions/*
+localcache/*
+temp/*
